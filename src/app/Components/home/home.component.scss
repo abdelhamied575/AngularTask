@@ -1,0 +1,22 @@
+.table {
+  font-size: 0.9rem;
+}
+
+.badge {
+  font-size: 0.75rem;
+}
+
+.fa-star {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 576px) {
+  .table {
+    font-size: 0.8rem;
+  }
+
+  .btn-group .btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

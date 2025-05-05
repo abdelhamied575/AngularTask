@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="form-container">
+      <h2>Edit Product</h2>
+      <form [formGroup]="productForm" (ngSubmit)="handleForm()" method="post">
+        
+
+        <div class="form-group">
+          <label for="title">Product Title</label>
+          <input #inputTitle type="text" id="title" formControlName="title" class="form-control">
+          <div *ngIf="(productForm.get('title')?.touched || inputTitle.value.length > 0) && productForm.get('title')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('title')?.getError('required')">Title is required</p>
+            <p *ngIf="productForm.get('title')?.getError('minlength')">Title must be at least 3 characters</p>
+            <p *ngIf="productForm.get('title')?.getError('maxlength')">Title must be at most 20 characters</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea #inputDesc id="description" formControlName="description" class="form-control"></textarea>
+          <div *ngIf="(productForm.get('description')?.touched || inputDesc.value.length > 0) && productForm.get('description')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('description')?.getError('required')">Description is required</p>
+            <p *ngIf="productForm.get('description')?.getError('minlength')">Description must be at least 10 characters</p>
+            <p *ngIf="productForm.get('description')?.getError('maxlength')">Description must be at most 100 characters</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input #inputPrice type="number" id="price" formControlName="price" class="form-control">
+          <div *ngIf="(productForm.get('price')?.touched || inputPrice.value.length > 0) && productForm.get('price')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('price')?.getError('required')">Price is required</p>
+            <p *ngIf="productForm.get('price')?.getError('min')">Price must be at least 0</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <input #inputBrand type="text" id="brand" formControlName="brand" class="form-control">
+          <div *ngIf="(productForm.get('brand')?.touched || inputBrand.value.length > 0) && productForm.get('brand')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('brand')?.getError('required')">Brand is required</p>
+            <p *ngIf="productForm.get('brand')?.getError('minlength')">Brand must be at least 3 characters</p>
+            <p *ngIf="productForm.get('brand')?.getError('maxlength')">Brand must be at most 20 characters</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input type="text" id="tags" formControlName="tags" class="form-control" placeholder="Enter tags separated by commas">
+          <div *ngIf="(productForm.get('tags')?.touched || productForm.get('tags')?.value.length > 0) && productForm.get('tags')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('tags')?.getError('required')">Tags are required</p>
+            <p *ngIf="productForm.get('tags')?.getError('minlength')">Tags must be at least 3 characters</p>
+            <p *ngIf="productForm.get('tags')?.getError('maxlength')">Tags must be at most 20 characters</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="images">Select images:</label>
+          <input type="file" #inputImage id="images" formControlName="images" accept="image/jpeg,image/png" class="form-control" multiple>
+          <div *ngIf="(productForm.get('images')?.touched) && productForm.get('images')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('images')?.getError('required')">Images are required</p>
+          </div>
+        </div>
+  
+        <button type="submit" [disabled]="productForm.invalid" class="submit-btn btn btn-primary my-4">Update Product</button>
+      </form>
+    </div>
+  </div>

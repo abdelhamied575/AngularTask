@@ -1,0 +1,43 @@
+
+<section class="bg-main-light p-4 rounded my-3 w-75 mx-auto">
+    <h1>Login Now:</h1>
+  <app-loader></app-loader>
+
+    <form [formGroup]="loginForm" (ngSubmit)="handleForm()" >
+
+        <div class="mb-2">
+            <label for="username">username:</label>
+            <input #inputusername type="text" id="username" class="form-control" formControlName="username">
+
+            <div *ngIf="loginForm.get('username')?.errors && (loginForm.get('username')?.touched || inputusername.value.length>0)" class="alert alert-danger">
+                <p *ngIf="loginForm.get('username')?.getError('required')">username is required</p>
+            </div>
+
+        </div>
+
+        <div class="mb-2">
+            <label for="password">password:</label>
+            <input #inputPassword type="text" id="password" class="form-control" formControlName="password">
+
+            <div *ngIf="(loginForm.get('password')?.touched || inputPassword.value.length>0) && loginForm.get('password')?.errors" class="alert alert-danger">
+                <p *ngIf="loginForm.get('password')?.getError('required')">password is required</p>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <button type="submit" class="btn btn-secondary d-block ms-auto">
+                Login
+            </button>
+        </div>
+
+        <!-- <button [disabled]="loginForm.invalid" type="submit" class="btn-main d-block ms-auto">
+            <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+            Login
+        </button> -->
+
+        <!-- <p *ngIf="msError" class="alert alert-danger">{{msError}}</p> -->
+
+    </form>
+</section>

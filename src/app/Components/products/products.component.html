@@ -1,0 +1,76 @@
+
+
+
+<div class="container">
+    <div class="form-container">
+      <h2>Create Product</h2>
+      <form [formGroup]="productForm" (ngSubmit)="handleForm()">
+        
+        <div class="form-group">
+          <label for="title">Product Title</label>
+          <input #inputTitle type="text" id="title" formControlName="title" class="form-control">
+          <div *ngIf="(productForm.get('title')?.touched ||inputTitle.value.length>0) && productForm.get('title')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('title')?.getError('required')">title is required</p>
+            <p *ngIf="productForm.get('title')?.getError('minlength')">title MinLength 3</p>
+            <p *ngIf="productForm.get('title')?.getError('maxlength')">title MaxLength 20</p>
+          </div>
+        </div>
+
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea #inputdesc id="description" formControlName="description" class="form-control"></textarea>
+          <div *ngIf="(productForm.get('description')?.touched ||inputdesc.value.length>0) && productForm.get('description')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('description')?.getError('required')">description is required</p>
+            <p *ngIf="productForm.get('description')?.getError('minlength')">description MinLength 10</p>
+            <p *ngIf="productForm.get('description')?.getError('maxlength')">description MaxLength 100</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input #inputprice type="number" id="price" formControlName="price" class="form-control">
+          <div *ngIf="(productForm.get('price')?.touched ||inputprice.value.length>0) && productForm.get('price')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('price')?.getError('required')">price is required</p>
+            <p *ngIf="productForm.get('price')?.getError('min')">min price 0</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <input #inputbrand type="text" id="brand" formControlName="brand" class="form-control">
+          <div *ngIf="(productForm.get('brand')?.touched ||inputbrand.value.length>0) && productForm.get('brand')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('brand')?.getError('required')">brand is required</p>
+            <p *ngIf="productForm.get('brand')?.getError('minlength')">brand MinLength 3</p>
+            <p *ngIf="productForm.get('brand')?.getError('maxlength')">brand MaxLength 20</p>
+          </div>
+        </div>
+  
+       
+
+        <div formArrayName="tags">
+          <label>Tags</label>
+          <div *ngFor="let tagCtrl of tags.controls; let i = index" class="form-group">
+            <input [formControlName]="i" type="text" class="form-control mb-2">
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeTag(i)">Remove</button>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm mt-2" (click)="addTag()">Add Tag</button>
+        </div>
+        
+  
+        <div class="form-group">
+          <label for="images">Select images:</label>
+          <input type="file" id="images" (change)="onFileChange($event)"  multiple accept="image/jpeg,image/png" class="form-control">
+          <div *ngIf="(productForm.get('images')?.touched) && productForm.get('images')?.errors" class="alert alert-danger">
+            <p *ngIf="productForm.get('images')?.getError('required')">images is required</p>
+          </div>
+
+          
+        </div>
+  
+        <button type="submit" [disabled]="productForm.invalid" class="submit-btn btn btn-primary my-4">Create Product</button>
+      </form>
+    </div>
+  
+  
+  </div>

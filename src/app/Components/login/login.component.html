@@ -1,7 +1,6 @@
 
 <section class="bg-main-light p-4 rounded my-3 w-75 mx-auto">
     <h1>Login Now:</h1>
-  <app-loader></app-loader>
 
     <form [formGroup]="loginForm" (ngSubmit)="handleForm()" >
 
@@ -17,7 +16,7 @@
 
         <div class="mb-2">
             <label for="password">password:</label>
-            <input #inputPassword type="text" id="password" class="form-control" formControlName="password">
+            <input #inputPassword type="password" id="password" class="form-control" formControlName="password">
 
             <div *ngIf="(loginForm.get('password')?.touched || inputPassword.value.length>0) && loginForm.get('password')?.errors" class="alert alert-danger">
                 <p *ngIf="loginForm.get('password')?.getError('required')">password is required</p>

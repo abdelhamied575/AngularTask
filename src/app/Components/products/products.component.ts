@@ -67,7 +67,7 @@ export class ProductsComponent {
 
   if (files && files.length > 0) {
     const fileNames: string[] = [];
-    this.imagePreviews = []; // Reset previews
+    this.imagePreviews = []; 
 
     Array.from(files).forEach((file) => {
       fileNames.push(file.name);

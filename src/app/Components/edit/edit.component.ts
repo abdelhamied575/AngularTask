@@ -69,7 +69,7 @@ export class EditComponent {
         description: product.description,
         price: product.price,
         brand: product.brand,
-        tags: product.tags.join(', '),  // 👈 تحويل tags لمجرد string مفصول بفواصل
+        tags: product.tags.join(', '),
         images: product.images[0]
       });
     },

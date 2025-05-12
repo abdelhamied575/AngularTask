@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 export class EditComponent {
 
 
-
+  imagePreviews: string[] = [];
 
 
   productForm: FormGroup;
@@ -43,23 +43,66 @@ export class EditComponent {
     this.productId = Number(this._ActivatedRoute.snapshot.paramMap.get('id'));
   }
 
+  // ngOnInit(): void {
+  //   this._ProductService.getProductById(this.productId).subscribe({
+  //     next: (product: Productdata) => {
+  //       this.productForm.patchValue({
+  //         title: product.title,
+  //         description: product.description,
+  //         price: product.price,
+  //         brand: product.brand,
+  //         tags: product.tags ,
+  //         images: product.images[0]
+  //       });
+  //     },
+  //     error: (err) => {
+  //       console.error('Error No product:', err);
+  //     }
+  //   });
+  // }
+
   ngOnInit(): void {
-    this._ProductService.getProductById(this.productId).subscribe({
-      next: (product: Productdata) => {
-        this.productForm.patchValue({
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          brand: product.brand,
-          tags: product.tags ,
-          images: product.images.values
-        });
-      },
-      error: (err) => {
-        console.error('Error No product:', err);
-      }
+  this._ProductService.getProductById(this.productId).subscribe({
+    next: (product: Productdata) => {
+      this.productForm.patchValue({
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        brand: product.brand,
+        tags: product.tags.join(', '),  // 👈 تحويل tags لمجرد string مفصول بفواصل
+        images: product.images[0]
+      });
+    },
+    error: (err) => {
+      console.error('Error No product:', err);
+    }
+  });
+}
+
+
+onFileChange(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  if (files && files.length > 0) {
+    const fileNames: string[] = [];
+    this.imagePreviews = [];
+
+    Array.from(files).forEach((file) => {
+      fileNames.push(file.name);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreviews.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     });
+
+    this.productForm.patchValue({ images: fileNames });
   }
+}
+
+
 
   handleForm(): void {
     if (this.productForm.valid) {

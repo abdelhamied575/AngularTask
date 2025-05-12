@@ -21,18 +21,9 @@ export class ProductsComponent {
 
   constructor(private _ProductService:ProductService,private toster:ToastrService,private _Router:Router,private fb: FormBuilder) { }
 
-  
-  // productForm:FormGroup=new FormGroup({
-  //   title:new FormControl('',[Validators.required,Validators.maxLength(20),Validators.minLength(3)]),
-  //   description:new FormControl('',[Validators.required,Validators.maxLength(100),Validators.minLength(10)]),
-  //   price:new FormControl('',[Validators.required,Validators.min(0)]),
-  //   brand:new FormControl('',[Validators.required,Validators.maxLength(20),Validators.minLength(3)]),
-  //   tags:new FormControl([''],[Validators.required,Validators.maxLength(20),Validators.minLength(3)]),
-  //   images:new FormControl([''],[Validators.required])
-  // });
 
+  imagePreviews: string[] = [];
 
-  
 
   productForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(3)]],
@@ -56,19 +47,43 @@ export class ProductsComponent {
   }
   
  
-  onFileChange(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    const files = target.files;
+  // onFileChange(event: Event): void {
+  //   const target = event.target as HTMLInputElement;
+  //   const files = target.files;
   
-    if (files!=null && files.length > 0) {
+  //   if (files!=null && files.length > 0) {
 
-      const fileNames: string[] = Array.from(files).map(file => file.name);
+  //     const fileNames: string[] = Array.from(files).map(file => file.name);
       
-      this.productForm.patchValue({ images: fileNames });
+  //     this.productForm.patchValue({ images: fileNames });
       
-      console.log('Selected file names:', fileNames);
-    } 
+  //     console.log('Selected file names:', fileNames);
+  //   } 
+  // }
+
+  onFileChange(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  const files = target.files;
+
+  if (files && files.length > 0) {
+    const fileNames: string[] = [];
+    this.imagePreviews = []; // Reset previews
+
+    Array.from(files).forEach((file) => {
+      fileNames.push(file.name);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreviews.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    this.productForm.patchValue({ images: fileNames });
+    console.log('Selected file names:', fileNames);
   }
+}
+
 
   
   handleForm():void{

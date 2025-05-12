@@ -26,12 +26,14 @@ export class ProductService {
 
 
   SearchProduct(searchItem:string='',page: number = 1, limit: number = 10):Observable<ApiResponse>{
-    return this._HttpClient.get<ApiResponse>(this.baseUrl+`/search?q=${searchItem}`)
+    const skip = (page - 1) * limit;
+    return this._HttpClient.get<ApiResponse>(this.baseUrl+`/search?q=${searchItem}&limit=${limit}&skip=${skip}`)
   }
 
   sortProducts(sortBy:string='',order:string='asc',page: number = 1, limit: number = 10):Observable<ApiResponse>{
     const skip = (page - 1) * limit;
-    return this._HttpClient.get<ApiResponse>(this.baseUrl+`?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${skip}`)
+    const url=this.baseUrl+`?sortBy=${sortBy}&order=${order}&limit=${limit}&skip=${skip}`;
+    return this._HttpClient.get<ApiResponse>(url)
   }
 
 

@@ -55,7 +55,7 @@
   
         <div class="form-group">
           <label for="images">Select images:</label>
-          <input type="file" #inputImage id="images" formControlName="images" accept="image/jpeg,image/png" class="form-control" multiple>
+          <input type="file" #inputImage id="images" (change)="onFileChange($event)" accept="image/jpeg,image/png" class="form-control" multiple>
           <div *ngIf="(productForm.get('images')?.touched) && productForm.get('images')?.errors" class="alert alert-danger">
             <p *ngIf="productForm.get('images')?.getError('required')">Images are required</p>
           </div>
@@ -64,4 +64,30 @@
         <button type="submit" [disabled]="productForm.invalid" class="submit-btn btn btn-primary my-4">Update Product</button>
       </form>
     </div>
+
+
+    <div class="preview mt-5 p-3 border rounded bg-light">
+      <h4>Live Preview</h4>
+      <p><strong>Title:</strong> {{ productForm.get('title')?.value }}</p>
+      <p><strong>Description:</strong> {{ productForm.get('description')?.value }}</p>
+      <p><strong>Price:</strong> {{ productForm.get('price')?.value }}</p>
+      <p><strong>Brand:</strong> {{ productForm.get('brand')?.value }}</p>
+      <p><strong>Tags:</strong>
+        <span *ngFor="let tag of productForm.get('tags')?.value.split(',')">
+          <span class="badge bg-secondary me-1">{{ tag.trim() }}</span>
+        </span>
+      </p>
+
+      <div *ngIf="imagePreviews.length > 0" class="mt-3">
+        <h5>Image Preview:</h5>
+        <div class="d-flex flex-wrap gap-2">
+          <img *ngFor="let img of imagePreviews" [src]="img" class="img-thumbnail" style="width: 150px;">
+        </div>
+      </div>
+
+
+    </div>
+
+
+
   </div>

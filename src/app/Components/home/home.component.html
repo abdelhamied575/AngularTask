@@ -8,7 +8,7 @@
       <mat-label>Search products</mat-label>
       <input matInput
              [(ngModel)]="searchItem"
-             (ngModelChange)="onSearch()"
+             (ngModelChange)="onChangePage($event)"
              placeholder="Search products by title...">
     </mat-form-field>
   </div>
@@ -18,26 +18,33 @@
       <div class="col-12 col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Sort By</mat-label>
-          <mat-select [(ngModel)]="sortBy" (ngModelChange)="sortProducts()">
+          <mat-select [(ngModel)]="sortBy" 
+          (ngModelChange)="onChangePage($event)"
+          >
             <mat-option value="">None</mat-option>
             <mat-option *ngFor="let option of sortOptions" [value]="option">{{ option }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-10 col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Order</mat-label>
-          <mat-select [(ngModel)]="selectedOrder" (ngModelChange)="sortProducts()">
+          <mat-select [(ngModel)]="selectedOrder" (ngModelChange)="onChangePage($event)">
             <mat-option value="">None</mat-option>
             <mat-option *ngFor="let option of orderOptions" [value]="option">{{ option }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
+
+      <div>
+        <button class="btn btn-primary" routerLink="/products">Add Product</button>
+      </div>
+      
     </div>
   </div>
 
 
-  <div style="overflow-x: auto;">
+  <div class="table-responsive">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
       <ng-container matColumnDef="image">
         <th mat-header-cell *matHeaderCellDef>Image</th>
@@ -102,19 +109,22 @@
     </table>
   
   </div>
- 
-    <mat-paginator [pageSize]="pageSize"
-    [length]="totalProducts"
-    (page)="onChangePage($event.pageIndex + 1)"
-    aria-label="Select page of products">
+
+
+  <mat-paginator [length]="totalProducts"
+                 [pageSize]="10"
+                 (page)="onChangePage($event)">
   </mat-paginator>
+
+
+
 
 
   
   <div class="d-flex justify-content-between align-items-center mt-4">
     <div class="text-primary">
-      <p>Showing {{ (currentPage - 1) * pageSize + 1 }} to
-         {{ currentPage * pageSize > totalProducts ? totalProducts : currentPage * pageSize }}
+      <p>Showing {{ (currentPage - 1) * limit + 1 }} to
+         {{ currentPage * limit > totalProducts ? totalProducts : currentPage * limit }}
       </p>
       <p>Total Of Products: {{totalProducts}}</p>
       <p>Current Page: {{currentPage}}</p>

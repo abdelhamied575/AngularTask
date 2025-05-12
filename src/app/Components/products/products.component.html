@@ -71,6 +71,24 @@
         <button type="submit" [disabled]="productForm.invalid" class="submit-btn btn btn-primary my-4">Create Product</button>
       </form>
     </div>
-  
+    
+
+    <div class="live-preview mt-5 p-3 border rounded bg-light">
+      <h3>Live Preview Mock Div Showing Data in real time</h3>
+      <p><strong>Title:</strong> {{ productForm.get('title')?.value }}</p>
+      <p><strong>Description:</strong> {{ productForm.get('description')?.value }}</p>
+      <p><strong>Price:</strong> {{ productForm.get('price')?.value }}</p>
+      <p><strong>Brand:</strong> {{ productForm.get('brand')?.value }}</p>
+      <p><strong>Tags:</strong> {{ tags.value.join(', ') }}</p>
+      <div *ngIf="imagePreviews.length > 0" class="image-preview mt-3">
+        <h5>Image Previews:</h5>
+        <div class="d-flex flex-wrap gap-3">
+          <img *ngFor="let img of imagePreviews" [src]="img" class="img-thumbnail" style="width: 150px; height: auto;">
+        </div>
+      </div>
+
+
+    </div>
+
   
   </div>
